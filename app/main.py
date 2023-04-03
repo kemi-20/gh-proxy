@@ -31,8 +31,8 @@ black_list = '''
 pass_list = '''
 '''
 
-HOST = '127.0.0.1'  # 监听地址，建议监听本地然后由web服务器反代
-PORT = 80  # 监听端口
+HOST = '0.0.0.0'  # 监听地址，建议监听本地然后由web服务器反代
+PORT = 6366  # 监听端口
 ASSET_URL = 'https://fastly.jsdelivr.net/gh/kemi-20/gh-proxy@main'  # 主页
 
 white_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in white_list.split('\n') if i]
