@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
-
+import io
 import requests
 from flask import Flask, Response, redirect, request
+from PIL import Image
 from requests.exceptions import (
     ChunkedEncodingError,
     ContentDecodingError, ConnectionError, StreamConsumedError)
@@ -10,6 +11,7 @@ from requests.utils import (
     stream_decode_response_unicode, iter_slices, CaseInsensitiveDict)
 from urllib3.exceptions import (
     DecodeError, ReadTimeoutError, ProtocolError)
+
 
 # config
 # 分支文件使用jsDelivr镜像的开关，0为关闭，默认关闭
@@ -33,15 +35,23 @@ pass_list = '''
 
 HOST = '0.0.0.0'  # 监听地址，建议监听本地然后由web服务器反代
 PORT = 6366  # 监听端口
-ASSET_URL = 'https://fastly.jsdelivr.net/gh/kemi-20/gh-proxy@main'  # 主页
+
+def image2byte(image):
+    img_bytes = io.BytesIO()
+    image = image.convert("RGB")
+    image.save(img_bytes, format="JPEG")
+    image_bytes = img_bytes.getvalue()
+    return image_bytes
 
 white_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in white_list.split('\n') if i]
 black_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in black_list.split('\n') if i]
 pass_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in pass_list.split('\n') if i]
 app = Flask(__name__)
 CHUNK_SIZE = 1024 * 10
-index_html = requests.get(ASSET_URL+ '/index.html', timeout=10).text
-icon_r = requests.get(ASSET_URL + '/favicon.ico', timeout=10).content
+
+index_html = open("index.html",encoding='utf-8').read()
+icon_r = image2byte(Image.open("favicon.ico"))
+
 exp1 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$')
 exp2 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$')
 exp3 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$')
