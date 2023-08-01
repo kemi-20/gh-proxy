@@ -14,7 +14,7 @@ from urllib3.exceptions import (
 
 # config
 # 分支文件使用jsDelivr镜像的开关，0为关闭，默认关闭
-jsdelivr = 0
+jsdelivr = 1
 size_limit = 1024 * 1024 * 1024 * 999  # 允许的文件大小，默认999GB，相当于无限制了 https://github.com/hunshcn/gh-proxy/issues/8
 
 """
