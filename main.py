@@ -149,12 +149,12 @@ def handler(u):
         return Response('Invalid input.', status=403)
 
     if (jsdelivr or pass_by) and exp2.match(u):
-        u = u.replace('/blob/', '@', 1).replace('github.com', 'cdn.jsdelivr.net/gh', 1)
+        u = u.replace('/blob/', '@', 1).replace('github.com', 'jsd.onmicrosoft.cn/gh', 1)
         return redirect(u)
     elif (jsdelivr or pass_by) and exp4.match(u):
         u = re.sub(r'(\.com/.*?/.+?)/(.+?/)', r'\1@\2', u, 1)
-        _u = u.replace('raw.githubusercontent.com', 'cdn.jsdelivr.net/gh', 1)
-        u = u.replace('raw.github.com', 'cdn.jsdelivr.net/gh', 1) if _u == u else _u
+        _u = u.replace('raw.githubusercontent.com', 'jsd.onmicrosoft.cn/gh', 1)
+        u = u.replace('raw.github.com', 'jsd.onmicrosoft.cn/gh', 1) if _u == u else _u
         return redirect(u)
     else:
         if exp2.match(u):
