@@ -3,7 +3,6 @@ import re
 import io
 import requests
 from flask import Flask, Response, redirect, request
-from PIL import Image
 from requests.exceptions import (
     ChunkedEncodingError,
     ContentDecodingError, ConnectionError, StreamConsumedError)
