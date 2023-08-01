@@ -35,6 +35,7 @@ pass_list = '''
 
 HOST = '0.0.0.0'  # 监听地址，建议监听本地然后由web服务器反代
 PORT = 6366  # 监听端口
+ICON_URL = 'https://hunshcn.github.io/gh-proxy/favicon.ico'  # 图标
 
 def image2byte(image):
     img_bytes = io.BytesIO()
@@ -50,7 +51,7 @@ app = Flask(__name__)
 CHUNK_SIZE = 1024 * 10
 
 index_html = open("index.html",encoding='utf-8').read()
-icon_r = image2byte(Image.open("favicon.ico"))
+icon_r = requests.get(ICON_URL, timeout=10).content
 
 exp1 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$')
 exp2 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$')
